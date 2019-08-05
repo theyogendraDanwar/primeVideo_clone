@@ -3,31 +3,50 @@ import {
     TouchableOpacity,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    FlatList,
 } from 'react-native';
-import VerticalList from './VerticalList'
+
+import ListItem from './ListItem'
+
 export default Tabs = (props) => {
-    const { tabs } = props;
-    console.log(tabs);
+    const { tabs, tabListData } = props;
+    _renderItem = ({item}) => (
+        <ListItem
+          title={item.title}
+        />
+      );
     return (
-        <View >
+        <View style={styles.container}>  
             <View style={styles.tabContainer}>
             {tabs.map((item, index) => {
-                return (<TouchableOpacity style={styles.tabsStyles} key={index}>
-                    <Text style={{color: 'white',fontSize:20}}>{item.title}</Text>
-                </TouchableOpacity>)
-            })
+                return (
+                <TouchableOpacity style={styles.tabsStyles} key={index}>
+                    <Text style={{color: 'white',fontSize:20, flex:1,alignItems:'center'}}>
+                        {item.title} { index ? '' : `(${tabListData.length})`}
+                    </Text>
+                </TouchableOpacity>
+                )})
             }</View>
-            <View>
-                <VerticalList link="https://assets.dryicons.com/uploads/icon/svg/12631/d3fab4d2-3a88-4439-9a83-3bea496ed86b.svg"
-							title="Wishlist3"/>
-            </View>
-            
+            <View style={styles.container}>
+                <FlatList
+                    style={{flex:1}}
+                    data={tabListData} 
+                    renderItem={_renderItem}
+                    keyExtractor={(item, index) => item.title}
+                />
+                </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#ecf0f1',
+        marginBottom:10,
+      },
     tabContainer: {
         flex:1,
         flexDirection: 'row',

@@ -11,31 +11,9 @@ import {
 	View
 } from 'react-native'
 
-import {
-	createMaterialTopTabNavigator,
-	withNavigation,
-	createAppContainer
-} from 'react-navigation'
-
 import { CartTileWrapper } from '../components/Wrapper/CardTileWrapper'
 import CircleButton from '../components/component/CircleButton'
 import CardImage from '../components/component/CardImage'
-
-const HomeScreen = (props) => {
-	return (
-		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-			<Text>Home!</Text>
-		</View>
-	);
-}
-
-const SettingsScreen = (props) => {
-	return (
-		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-			<Text>Settings!</Text>
-		</View>
-	);
-}
 
 const carddata = [
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
@@ -43,27 +21,25 @@ const carddata = [
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
+	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' }, { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 ]
 
-const TabScreen = createMaterialTopTabNavigator({
-	Home: HomeScreen,
-	Settings: SettingsScreen,
-}, {
-		tabBarPosition: 'top',
-		navigationOptions: ({ navigation }) => ({
-			header: null
-		}),
-	})
+const tabListData = [
+	{ title: 'episode 1', subText: 'text1', linkto: '' },
+	{ title: 'episode 2', subText: 'text2', linkto: '' },
+	{ title: 'episode 3', subText: 'text3', linkto: '' },
+	{ title: 'episode 4', subText: 'text4', linkto: '' },
+	{ title: 'episode 5', subText: 'text5', linkto: '' },
+]
 
 export default class amaznItemDetails extends Component {
 
 	_changeFrame = () => {
 		return ({
-			width: width,
-			height: height,
+			width: Dimensions.get('window').width,
+			height: Dimensions.get('window').height,
 			top: 0,
 			bottom: 0,
 			left: 0,
@@ -118,12 +94,12 @@ export default class amaznItemDetails extends Component {
 							]
 						}
 							textStyle={{
-								width: width,
+								width: Dimensions.get('window').width,
 								color: 'white'
 							}}
 							dropdownStyle={{
 								position: 'absolute',
-								width: width,
+								width: Dimensions.get('window').width,
 								height: height,
 								padding: 15,
 								color: 'white'
@@ -160,10 +136,14 @@ export default class amaznItemDetails extends Component {
 							title="Wishlist3" />
 					</View>
 					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}>Must you with him from him her were more. In eldest be it result should remark vanity square. Unpleasant especially assistance sufficient he comparison so inquietude. Branch one shy edward stairs turned has law wonder horses. Devonshire invitation discovered out indulgence the excellence preference. Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their sex could defer child. An lose at quit to life do dull. </Text>
+				</View>
+				<View>
 					<Tabs tabs={[
-						{title:'tab1'},
-						{title:'tab3'},
-						]}/>
+						{ title: 'tab1' },
+						{ title: 'tab3' },
+					]}
+						tabListData={tabListData}
+					/>
 					<View style={{ flex: 1 }}>
 						<CartTileWrapper data={carddata}
 							cardTileStyle={{
@@ -172,17 +152,18 @@ export default class amaznItemDetails extends Component {
 								width: 150,
 								height: 150,
 							}}
-							title="customers also watched" 
-							/>
+							title="customers also watched"
+						/>
 						<View className="cast-section" style={styles.container}>
 							<Text style={[{ textAlign: "left", padding: 10, color: 'white', backgroundColor: 'pink' }, { width: width }]}>Cast and crew</Text>
 							<CardImage cardStyle={{
 								margin: 10,
 								width: 100,
 								height: 100,
-								borderRadius: 5,}}
+								borderRadius: 5,
+							}}
 								data={carddata}
-								/>
+							/>
 						</View>
 					</View>
 				</View>
@@ -196,10 +177,10 @@ const styles = StyleSheet.create({
 		height: 200
 	},
 	container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	titleText: {
 		fontWeight: 'bold',
 		paddingBottom: 15,
