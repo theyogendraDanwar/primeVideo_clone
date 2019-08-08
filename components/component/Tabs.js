@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
     TouchableOpacity,
     View,
@@ -10,14 +10,18 @@ import {
 import ListItem from './ListItem'
 
 export default Tabs = (props) => {
-    const { tabs, tabListData } = props;
+    const { tabs, tabListData, sticky } = props;
     _renderItem = ({item}) => (
         <ListItem
           title={item.title}
         />
       );
+      _getinfo =(event) => {
+        const layout = event.nativeEvent.layout;
+        console.log(layout);
+      }
     return (
-        <View style={styles.container}>  
+        <React.Fragment>
             <View style={styles.tabContainer}>
             {tabs.map((item, index) => {
                 return (
@@ -28,6 +32,7 @@ export default Tabs = (props) => {
                 </TouchableOpacity>
                 )})
             }</View>
+        <View style={styles.container} onLayout={event => _getinfo(event)}>  
             <View style={styles.container}>
                 <FlatList
                     style={{flex:1}}
@@ -37,6 +42,7 @@ export default Tabs = (props) => {
                 />
                 </View>
         </View>
+        </React.Fragment>
     )
 }
 
@@ -51,6 +57,16 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         alignItems: 'center'
+    }
+    ,makeSticky: {
+        position: 'absolute',
+        top:0,
+        left: 0,
+        right: 0,
+        flex: 1,
+        width: '100%',
+        zIndex:1,
+        alignSelf: 'stretch',
     }
     ,tabsStyles: {
         color: 'white',

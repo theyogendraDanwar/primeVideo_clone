@@ -1,6 +1,8 @@
-import * as Screens from './screens';
-import React from 'react';
-import { View, Text } from 'react-native'
+import * as Screens from './screens'
+import React from 'react'
+import { View, Text, Image } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {
   createAppContainer,
   createStackNavigator,
@@ -35,33 +37,70 @@ const HomeStackNavigator = createStackNavigator({
   }
 })
 
-const TopTabNavigator = createMaterialTopTabNavigator({
-  Home: HomeStackNavigator,
-  Movies: HomeStackNavigator,
-  Shows: HomeStackNavigator
-}, {
-    tabBarOptions: {
-      showIcon: true,
-    }
-  })
-
-const TabNavigator = createBottomTabNavigator({
-  Home: TopTabNavigator,
-  SearchScreen: SettingsScreen,
-  Wishlist: SettingsScreen,
-  DownloadScreen: SettingsScreen,
-  Settings: SettingsScreen,
-}, {
-  navigationOptions: {
-    tabBarOnPress: ({ navigation, defaultHandler }) => {
-      console.log(navigation);
-      // perform your logic here
-      // this is mandatory to perform the actual switch
-      // don't call this if you want to prevent focus
-      defaultHandler();
-    }
+const TopTabNavigator = createMaterialTopTabNavigator(
+  {
+    Home: HomeStackNavigator,
+    Movies: SettingsScreen,
+    "Tv Shows": SettingsScreen,
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      header: <Text>Prime Video Clone</Text>
+    })
   }
-});
+)
+
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: TopTabNavigator,
+    Search: SettingsScreen,
+    Wishlist: SettingsScreen,
+    Download: SettingsScreen,
+    Settings: SettingsScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let IconComponent = Ionicons;
+        let iconName;
+
+        switch (routeName) {
+          case 'Home':
+            iconName = `ios-home`;
+            break;
+          case 'Settings':
+            iconName = `ios-options`;
+            break;
+          case 'Download':
+            iconName = `ios-cloud-download`;
+            break;
+          case 'Wishlist':
+            iconName = `ios-list`;
+            break;
+          case 'Search':
+            iconName = `ios-search`;
+            break;
+          default:
+            iconName = `ios-help`
+        }
+        // You can return any component that you like here!
+        return <IconComponent name={iconName} size={25} color={tintColor} />;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: '#00b9e8',
+      inactiveTintColor: 'white',
+      labelStyle: {
+        fontSize: 12,
+      },
+      showLabel: false,
+      showIcon: true,
+      style: {
+        backgroundColor: 'black',
+      },
+    },
+  });
 HomeStackNavigator.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {

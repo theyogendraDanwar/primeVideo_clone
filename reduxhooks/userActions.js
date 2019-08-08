@@ -1,5 +1,5 @@
 export const userInitialState = {
-  userState: {
+  user: {
     loggedIn: false
   }
 };

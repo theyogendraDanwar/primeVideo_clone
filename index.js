@@ -11,18 +11,18 @@ import StateProvider from './reduxhooks/state';
 import App from './App';
 import { name as appName } from './app.json';
 
-import { countInitialState, countReducer } from "./reduxhooks/countActions";
 import { userInitialState, userReducer } from "./reduxhooks/userActions";
+import { aItemInitialState, aItemReducer } from './reduxhooks/aItemActions';
 
 const initialState = {
-  ...countInitialState,
-  ...userInitialState
+  ...userInitialState,
+  ...aItemInitialState
 };
 
-const reducer = ({ user, count }, action) => ({
-  userState: userReducer(user, action),
-  countState: countReducer(count, action)
-});
+const reducer = ({user,amznItem}, action) => ({
+  user: userReducer(user, action),
+  aItem: aItemReducer(amznItem,action)
+})
 
 const Root = () => (
   <StateProvider initialState={initialState} reducer={reducer}>

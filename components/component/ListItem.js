@@ -12,7 +12,6 @@ export default ListItem = (props) => {
     _onPress = () => {
         props._onPress ? props._onPress : ''
     };
-    console.log(props)
     return (
         <TouchableOpacity onPress={_onPress} style={styles.container}>
             <View style={styles.play_icon_container}>
