@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ModalDropdown from '../components/component/ModalDropdown';
 import IconButton from '../components/component/IconButton';
 import Tabs from '../components/component/Tabs'

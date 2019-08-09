@@ -1,6 +1,6 @@
 import * as Screens from './screens'
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {
@@ -101,14 +101,35 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
   });
+  const LoginStackNavigator = createStackNavigator({
+    loginScreen: {
+      screen: Screens.amaznLoginScreen,
+      navigationOptions: ({navigation}) => ({
+        headerStyle: {
+          backgroundColor: '#232f38',
+          paddingTop: 100,
+          elevation: 0,
+          shadowColor : '#232f38',
+          shadowOpacity: 0,
+          shadowOffset: {
+            height: 0,
+          },
+          shadowRadius: 0,
+        }
+      })
+    },
+    mainMenu: TabNavigator
+  });
+
 HomeStackNavigator.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
   }
+  console.log(navigation);
   return {
     tabBarVisible
   }
 }
 
-export default createAppContainer(TabNavigator);
+export default createAppContainer(LoginStackNavigator);
