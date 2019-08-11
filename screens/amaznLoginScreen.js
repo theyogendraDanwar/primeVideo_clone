@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
+import {withNavigation} from 'react-navigation';
 import {
   TextInput,
   StyleSheet,
@@ -8,10 +9,32 @@ import {
   Image,
   KeyboardAvoidingView
 } from 'react-native';
+import { useStateContext } from '../reduxhooks/state';
 
-export default LoginScreen = (props) => {
-  _onPress = (e) => {
-    console.log(e.nativeElemenet.target);
+const LoginScreen = (props) => {
+  const [checkUsername, usernameUpdator] = useState();
+  const [checkPass, passUpdator] = useState();
+  const [state, dispatch] = useStateContext();
+  console.log(props.navigation);
+  useEffect(() => {
+    state.login.isLoggedIn ? props.navigation.navigate('amaznHomeScreen'): ''
+  },[state.login.isLoggedIn])
+  useEffect(() => {
+    return () => {
+      console.log('will unmount');
+    }
+  }, []);
+  handleSubmit = () => {
+    checkUsername && checkPass != null ?
+    dispatch({
+      type: 'CHECK_LOGIN_FIELD_STATUS',
+      payload: {
+        username: checkUsername,
+        pass: checkPass
+      }
+    }): dispatch({
+      type: 'SET_LOGIN_FIELD_STATUS_ERROR'
+    })
   }
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
@@ -20,25 +43,43 @@ export default LoginScreen = (props) => {
           flex: 1
         }}>
           <Text style={styles.loginTitle}> Sign In to Prime Clone</Text>
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Username"
-            placeholderTextColor={'#636e7e'}
-          />
-          <TextInput
-            secureTextEntry={true}
-            style={styles.textInputStyle}
-            placeholder="Password"
-            placeholderTextColor={'#636e7e'} />
+          <View style={{position: "relative", paddingBottom: 20}}>
+            <TextInput
+              style={styles.textInputStyle}
+              placeholder="Username"
+              placeholderTextColor={'#636e7e'}
+              value={checkUsername}
+              onChangeText={(e) => {usernameUpdator(e)}}
+            />
+            { state.login.error && <Text style={{position: 'absolute',  bottom: 0, left:0, right:0, 
+            paddingBottom: 10,
+              color: '#C71E1E', fontSize:16}}> Field is required *</Text>}
+          </View>
+          <View style={{position: "relative", paddingBottom: 20}}>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.textInputStyle}
+              placeholder="Password"
+              value={checkPass}
+              onChangeText={(e) => {passUpdator(e)}}
+              placeholderTextColor={'#636e7e'} />
+              {state.login.error && <Text style={{
+              position: 'absolute',  bottom: 0, left:0, right:0, 
+              paddingBottom: 10,
+              color: '#C71E1E', 
+              fontSize:16}}> Field is required *</Text>
+              }
+          </View>
+
         </View>
-        <View style={{ flex: 1.3, alignItems: 'baseline' }}>
-          <TouchableOpacity onPress={(event) => _onPress(event)} style={styles.buttonStyle} >
+        <View style={{ flex: 0.9, alignItems: 'baseline' }}>
+          <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle} >
             <Text style={{ fontWeight: "800" }}>Sign In</Text>
           </TouchableOpacity>
           <Text style={{ color: '#00b9e8', marginBottom: 30 }}>
             Not a Prime Clone Member?
         </Text>
-          <TouchableOpacity onPress={(event) => _onPress(event)}
+          <TouchableOpacity onPress={handleSubmit}
             style={[styles.buttonStyle,
             { backgroundColor: '#232f38' }]} >
             <Text style={{
@@ -49,21 +90,23 @@ export default LoginScreen = (props) => {
         </View>
 
       </View>
-      <View style={{ flex: 0.2, }}>
+      <View style={{ flex: 0.1, }}>
         <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
         <View style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding:10
-      }}>
-        <Image
-          style={{ alignSelf: 'center' }}
-          source={require('../images/open-source.png')} resizeMode="contain" style={{ height: 50 }} />
-      </View>
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 10
+        }}>
+          <Image
+            style={{ alignSelf: 'center' }}
+            source={require('../images/open-source.png')} resizeMode="contain" style={{ height: 50 }} />
+        </View>
       </View>
     </KeyboardAvoidingView>
   )
 }
+
+export default withNavigation(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -79,11 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     shadowRadius: 0,
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left:0,
-    right: 0,
   },
   buttonStyle: {
     borderRadius: 50,
@@ -113,4 +151,4 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginBottom: 10
   }
-})
+});

@@ -16,12 +16,12 @@ import {
 import Carousel from '../components/component/Carousel';
 import { CartTileWrapper } from '../components/Wrapper/CardTileWrapper';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+// const instructions = Platform.select({
+//   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+//   android:
+//     'Double tap R on your keyboard to reload,\n' +
+//     'Shake or press menu button for dev menu',
+// });
 
 const data = [
   { title: "Slide1", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },
@@ -36,7 +36,7 @@ const carddata = [
   { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 ]
 
-export default amaznHomeScreen = (props) => {
+export default amaznHomeScreen = (props) => { 
   return (
     <ScrollView
       vertical={true}

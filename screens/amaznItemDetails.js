@@ -45,6 +45,8 @@ export default amaznItemDetails = (props) => {
 		{ title: 'tab1' },
 		{ title: 'tab3' }];
 
+		console.log(state);
+
 	_changeFrame = () => {
 		return ({
 			width: Dimensions.get('window').width,

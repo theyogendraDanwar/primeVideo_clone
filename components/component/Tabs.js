@@ -18,7 +18,6 @@ export default Tabs = (props) => {
       );
       _getinfo =(event) => {
         const layout = event.nativeEvent.layout;
-        console.log(layout);
       }
     return (
         <React.Fragment>

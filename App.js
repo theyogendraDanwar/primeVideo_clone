@@ -8,6 +8,9 @@ import {
   createStackNavigator,
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
+  createSwitchNavigator,
+  StackActions,
+  NavigationActions
 } from 'react-navigation';
 
 class SettingsScreen extends React.Component {
@@ -23,32 +26,45 @@ class SettingsScreen extends React.Component {
 const HomeStackNavigator = createStackNavigator({
   amaznHomeScreen: {
     screen: Screens.amaznHomeScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       header: null
     })
   },
   aItemDetails: {
     screen: Screens.amaznItemDetails,
-    navigationOptions: ({ navigation }) => ({
-      headerBackImage: null,
-      headerLeft: null,
-      headerBackTitle: null,
+    navigationOptions: () => ({
+      header: null,
     })
   }
 })
 
-const TopTabNavigator = createMaterialTopTabNavigator(
-  {
-    Home: HomeStackNavigator,
-    Movies: SettingsScreen,
-    "Tv Shows": SettingsScreen,
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      header: <Text>Prime Video Clone</Text>
+const TopTabNavigator = createMaterialTopTabNavigator({
+  Home: HomeStackNavigator,
+  Movies: SettingsScreen,
+  "Tv Shows": SettingsScreen,
+}, {
+    defaultNavigationOptions: ({ navigation }) => ({
+      header: (() => {
+        <Text>Prime Clone</Text>
+      }),
+      headerStyle: {
+        backgroundColor: '#232f38',
+      },
+      tabBarOptions: {
+        style: {
+          backgroundColor: '#232f38',
+          paddingTop: 20,
+        },
+        elevation: 0,
+        shadowColor: '#232f38',
+        shadowOpacity: 0,
+        shadowOffset: {
+          height: 0,
+        },
+        shadowRadius: 0,
+      }
     })
-  }
-)
+  })
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -60,11 +76,23 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      tabBarOnPress: ({ navigation, defaultHandler }) => {
+        const { routeName } = navigation.state;
+        switch (routeName) {
+          case 'Home':
+            navigation.dispatch(StackActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName: 'amaznHomeScreen' })],
+            }));
+            break;
+          default:
+        }
+        defaultHandler();
+      },
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let IconComponent = Ionicons;
         let iconName;
-
         switch (routeName) {
           case 'Home':
             iconName = `ios-home`;
@@ -101,35 +129,40 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
   });
-  const LoginStackNavigator = createStackNavigator({
-    loginScreen: {
-      screen: Screens.amaznLoginScreen,
-      navigationOptions: ({navigation}) => ({
-        headerStyle: {
-          backgroundColor: '#232f38',
-          paddingTop: 100,
-          elevation: 0,
-          shadowColor : '#232f38',
-          shadowOpacity: 0,
-          shadowOffset: {
-            height: 0,
-          },
-          shadowRadius: 0,
-        }
-      })
-    },
-    mainMenu: TabNavigator
-  });
 
+const LoginNavigator = createStackNavigator({
+  loginScreen: {
+    screen: Screens.amaznLoginScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#232f38',
+        paddingTop: 80,
+        elevation: 0,
+        shadowColor: '#232f38',
+        shadowOpacity: 0,
+        shadowOffset: {
+          height: 0,
+        },
+        shadowRadius: 0,
+      }
+    })
+  }
+});
 HomeStackNavigator.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
   }
-  console.log(navigation);
   return {
     tabBarVisible
   }
 }
 
-export default createAppContainer(LoginStackNavigator);
+const RootStack = createSwitchNavigator(
+  {
+    Auth: { screen: LoginNavigator, navigationOptions: { header: null } },
+    App: { screen: TabNavigator, navigationOptions: { header: null } }
+  },
+)
+
+export default createAppContainer(RootStack);
