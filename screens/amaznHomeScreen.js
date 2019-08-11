@@ -34,6 +34,9 @@ const carddata = [
   { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
   { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
   { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
+  { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
+  { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
+  { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
 ]
 
 export default amaznHomeScreen = (props) => { 

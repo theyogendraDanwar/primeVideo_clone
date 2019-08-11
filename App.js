@@ -33,6 +33,15 @@ const HomeStackNavigator = createStackNavigator({
   aItemDetails: {
     screen: Screens.amaznItemDetails,
     navigationOptions: () => ({
+      headerStyle: {
+        backgroundColor: '#232f38',
+      },
+      header: () => { (<Text>PrimVideo</Text>) },
+    })
+  },
+  aItemPlay: {
+    screen: Screens.YoutubeVideo,
+    navigationOptions: () => ({
       header: null,
     })
   }

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useState } from 'react';
 import {
     TouchableOpacity,
     View,
@@ -10,37 +10,42 @@ import {
 import ListItem from './ListItem'
 
 export default Tabs = (props) => {
-    const { tabs, tabListData, sticky } = props;
-    _renderItem = ({item}) => (
+    const { tabs, tabListData } = props;
+    const [activeTab, ChangeTab] = useState(0)
+    let count = 0;
+    _renderItem = ({ item }) => (
         <ListItem
-          title={item.title}
+            title={item.title}
+            _onPress={'aItemPlay'}
         />
-      );
-      _getinfo =(event) => {
-        const layout = event.nativeEvent.layout;
-      }
+    );
     return (
         <React.Fragment>
             <View style={styles.tabContainer}>
-            {tabs.map((item, index) => {
-                return (
-                <TouchableOpacity style={styles.tabsStyles} key={index}>
-                    <Text style={{color: 'white',fontSize:20, flex:1,alignItems:'center'}}>
-                        {item.title} { index ? '' : `(${tabListData.length})`}
-                    </Text>
-                </TouchableOpacity>
-                )})
-            }</View>
-        <View style={styles.container} onLayout={event => _getinfo(event)}>  
-            <View style={styles.container}>
-                <FlatList
-                    style={{flex:1}}
-                    data={tabListData} 
-                    renderItem={_renderItem}
-                    keyExtractor={(item, index) => item.title}
-                />
+                {tabs.map((item, index) => {
+                    return (
+                        <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { ChangeTab(index) }}>
+                            <Text style={{ color: '#d0d8df', fontSize: 20, flex: 1, alignItems: 'center' }}>
+                                {item.title} {index ? '' : `(${tabListData.length})`}
+                            </Text>
+                        </TouchableOpacity>
+                    )
+                })
+                }</View>
+            {!activeTab ? <View style={styles.container}>
+                <View style={styles.container}>
+                    <FlatList
+                        style={{ flex: 1 }}
+                        data={tabListData}
+                        renderItem={_renderItem}
+                        keyExtractor={(item, index) => item.title}
+                    />
                 </View>
-        </View>
+            </View> :
+                <View style={styles.container} >
+                    <Text>InfoSection</Text>
+                </View>
+            }
         </React.Fragment>
     )
 }
@@ -49,29 +54,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#ecf0f1',
-        marginBottom:10,
-      },
+        backgroundColor: '#0b1620',
+    },
     tabContainer: {
-        flex:1,
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center'
     }
-    ,makeSticky: {
+    , makeSticky: {
         position: 'absolute',
-        top:0,
+        top: 0,
         left: 0,
         right: 0,
         flex: 1,
         width: '100%',
-        zIndex:1,
+        zIndex: 1,
         alignSelf: 'stretch',
     }
-    ,tabsStyles: {
-        color: 'white',
+    , tabsStyles: {
+        color: '#d0d8df',
         padding: 10,
-        backgroundColor: 'blue',
+        backgroundColor: '#171f2a',
         alignItems: 'center',
-        flex:1
+        flex: 1
     }
 })

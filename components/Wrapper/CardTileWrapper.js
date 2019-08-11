@@ -10,7 +10,7 @@ export const CartTileWrapper = (props) => {
       <Text style={[{ textAlign: "left", padding: 10, color: 'white', backgroundColor: 'pink' }, { width: width }]}>{title}</Text>
       <ScrollView
         horizontal={true}
-        pagingEnabled={true}
+        removeClippedSubviews={true}
         showsHorizontalScrollIndicator={false}
         style={[{ width: width }]}
       >

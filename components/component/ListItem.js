@@ -6,11 +6,12 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import {withNavigation} from 'react-navigation'
 import play_icon from '../../images/play-flat.png';
 
-export default ListItem = (props) => {
+const ListItem = (props) => {
     _onPress = () => {
-        props._onPress ? props._onPress : ''
+        props.navigation.navigate(props._onPress)
     };
     return (
         <TouchableOpacity onPress={_onPress} style={styles.container}>
@@ -21,11 +22,13 @@ export default ListItem = (props) => {
                 />
             </View>
             <View>
-                <Text>{props.title}</Text>
+                <Text style={{color: '#afb7c2'}}>{props.title}</Text>
             </View>
         </TouchableOpacity>
     )
 }
+
+export default withNavigation(ListItem);
 
 const styles = StyleSheet.create({
     container: {
@@ -33,7 +36,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingLeft: 10,
+        paddingTop: 10,
+        paddingBottom:10,
+        marginBottom:5,
         paddingRight:10,
+        backgroundColor: '#1b252f'
     },
     play_icon_container: {
         flexDirection: 'column'

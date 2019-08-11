@@ -15,7 +15,6 @@ const LoginScreen = (props) => {
   const [checkUsername, usernameUpdator] = useState();
   const [checkPass, passUpdator] = useState();
   const [state, dispatch] = useStateContext();
-  console.log(props.navigation);
   useEffect(() => {
     state.login.isLoggedIn ? props.navigation.navigate('amaznHomeScreen'): ''
   },[state.login.isLoggedIn])

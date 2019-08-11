@@ -45,8 +45,6 @@ export default amaznItemDetails = (props) => {
 		{ title: 'tab1' },
 		{ title: 'tab3' }];
 
-		console.log(state);
-
 	_changeFrame = () => {
 		return ({
 			width: Dimensions.get('window').width,
@@ -61,11 +59,11 @@ export default amaznItemDetails = (props) => {
 	}
 
 	_startPlaying = () => {
-		console.log('hey clicked');
+		props.navigation.navigate('aItemPlay');
 	}
 
 	_getPosition = (event) => {
-		event.nativeEvent.contentOffset.y > 658 ? dispatch({
+		event.nativeEvent.contentOffset.y > 680 ? dispatch({
 			type: "MAKE_TAB_STICKY",
 			payload: event.nativeEvent.contentOffset.y
 		}) : dispatch({
@@ -185,18 +183,18 @@ export default amaznItemDetails = (props) => {
 					</View>
 				</View>
 			</ScrollView>
-			{ state.aItem.stickyTab ?
-			<View style={styles.tabContainer}>
-				{tabs.map((item, index) => {
-					return (
-						<TouchableOpacity style={styles.tabsStyles} key={index}>
-							<Text style={{ color: 'white', fontSize: 20, flex: 1, alignItems: 'center' }}>
-								{item.title} {index ? '' : `(${tabListData.length})`}
-							</Text>
-						</TouchableOpacity>
-					)
-				})
-				}</View> : <View></View>
+			{state.aItem.stickyTab ?
+				<View style={styles.tabContainer}>
+					{tabs.map((item, index) => {
+						return (
+							<TouchableOpacity style={styles.tabsStyles} key={index}>
+								<Text style={{ color: '#d0d8df', fontSize: 20, flex: 1, alignItems: 'center' }}>
+									{item.title} {index ? '' : `(${tabListData.length})`}
+								</Text>
+							</TouchableOpacity>
+						)
+					})
+					}</View> : <View></View>
 			}
 		</View>
 	)
@@ -215,9 +213,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	tabsStyles: {
-		color: 'white',
+		color: '#d0d8df',
 		padding: 10,
-		backgroundColor: 'blue',
+		backgroundColor: '#171f2a',
 		alignItems: 'center',
 		flex: 1
 	},
