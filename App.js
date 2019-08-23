@@ -13,11 +13,11 @@ import {
   NavigationActions
 } from 'react-navigation';
 
-class SettingsScreen extends React.Component {
+class ComingSoonScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
+        <Text>Coming Soon!!!! Be Patient</Text>
       </View>
     );
   }
@@ -49,8 +49,8 @@ const HomeStackNavigator = createStackNavigator({
 
 const TopTabNavigator = createMaterialTopTabNavigator({
   Home: HomeStackNavigator,
-  Movies: SettingsScreen,
-  "Tv Shows": SettingsScreen,
+  Movies: ComingSoonScreen,
+  "Tv Shows": ComingSoonScreen,
 }, {
     defaultNavigationOptions: ({ navigation }) => ({
       header: (() => {
@@ -78,10 +78,10 @@ const TopTabNavigator = createMaterialTopTabNavigator({
 const TabNavigator = createBottomTabNavigator(
   {
     Home: TopTabNavigator,
-    Search: SettingsScreen,
-    Wishlist: SettingsScreen,
-    Download: SettingsScreen,
-    Settings: SettingsScreen,
+    Search: Screens.amaznSearchScreen,
+    Wishlist: ComingSoonScreen,
+    Download: ComingSoonScreen,
+    Settings: Screens.amaznSettingsScreen,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -174,4 +174,4 @@ const RootStack = createSwitchNavigator(
   },
 )
 
-export default createAppContainer(RootStack);
+export default createAppContainer(TabNavigator);

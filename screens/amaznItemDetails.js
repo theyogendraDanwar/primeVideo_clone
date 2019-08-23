@@ -194,7 +194,7 @@ export default amaznItemDetails = (props) => {
 							</TouchableOpacity>
 						)
 					})
-					}</View> : <View></View>
+					}</View> : <></>
 			}
 		</View>
 	)

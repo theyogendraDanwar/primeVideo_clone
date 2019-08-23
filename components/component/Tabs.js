@@ -11,8 +11,7 @@ import ListItem from './ListItem'
 
 export default Tabs = (props) => {
     const { tabs, tabListData } = props;
-    const [activeTab, ChangeTab] = useState(0)
-    let count = 0;
+    const [activeTab, changeTab] = useState(0)
     _renderItem = ({ item }) => (
         <ListItem
             title={item.title}
@@ -24,7 +23,7 @@ export default Tabs = (props) => {
             <View style={styles.tabContainer}>
                 {tabs.map((item, index) => {
                     return (
-                        <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { ChangeTab(index) }}>
+                        <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { changeTab(index) }}>
                             <Text style={{ color: '#d0d8df', fontSize: 20, flex: 1, alignItems: 'center' }}>
                                 {item.title} {index ? '' : `(${tabListData.length})`}
                             </Text>

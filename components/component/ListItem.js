@@ -4,26 +4,30 @@ import {
     Image,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Switch
 } from 'react-native';
 import {withNavigation} from 'react-navigation'
 import play_icon from '../../images/play-flat.png';
 
 const ListItem = (props) => {
     _onPress = () => {
-        props.navigation.navigate(props._onPress)
+        props._onPress ? props.navigation.navigate(props._onPress) : ''
     };
     return (
         <TouchableOpacity onPress={_onPress} style={styles.container}>
-            <View style={styles.play_icon_container}>
+            {!props.isMenu ?<View style={styles.play_icon_container}>
                 <Image
                     source={play_icon}
                     style={styles.ImageIconStyle}
                 />
-            </View>
+            </View>: <></>}
             <View>
                 <Text style={{color: '#afb7c2'}}>{props.title}</Text>
             </View>
+            {props.isSwitch ? 
+                <Switch onValueChange = {(value) => {props.toggleSwitch(value)}} 
+            value = {props.toggleValue}/>  : <></> }
         </TouchableOpacity>
     )
 }

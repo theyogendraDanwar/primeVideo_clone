@@ -5,22 +5,22 @@ import {
   Text,
   ImageBackground,
   StyleSheet,
-  Dimensions
 } from "react-native";
 
-const Carousel = props => {
-  const [position, upDatePosition] = useState(0);
+import { dimen } from '../../utils/Dimensions'
+
+const Carousel = ({ data, isautoplay, timelapse, ...props }) => {
+  const [position, updateCarouselPosition] = useState(0);
   const myRef = useRef(0);
-  const width = Dimensions.get("window").width;
-  const { data, isautoplay, timelapse } = props;
+  const width = dimen("window").width;
   useEffect(() => {
     const __onRef = (timeline = 5000) => {
       setTimeout(() => {
         position > data.length - 2
-          ? upDatePosition(0)
+          ? updateCarouselPosition(0)
           : position !== null
-          ? upDatePosition(position + 1)
-          : "";
+            ? updateCarouselPosition(position + 1)
+            : "";
       }, timeline);
     };
     myRef.current
