@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
-import {NavigationEvents} from 'react-navigation'
+import { NavigationEvents } from 'react-navigation'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   View,
   StyleSheet,
@@ -9,28 +10,26 @@ import {
 } from 'react-native'
 import { debounce } from '../utils/Dimensions'
 import SearchListItem from '../components/component/SearchListItem'
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useStateContext } from '../reduxhooks/state';
+import useHttp from '../reduxhooks/useHttp'
 
 export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext();
   const [searchValue, updateSearchValue] = useState('')
+  const [seeds, updatesSeeds] = useState(0);
+  const [isLoading, fetchedData] = useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=14079790`, seeds);
   let textInputRef = useRef();
-  const __updateRequest = debounce((e) => {
+  
+  isLoading ? dispatch({ type: 'ACTIVATE_SPINNER_LOADING' }) : '';
+  fetchedData ? dispatch({ type: 'UPDATE_SEARCH_DATA', payload: fetchedData.date.Search }) : '';
+  
+  handleUpdateRequest = debounce((e) => {
     updateSearchValue(e);
-   dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
-   fetch(`http://www.omdbapi.com/?s=${e}&apikey=`)
-     .then(response => response.json())
-     .then(data =>
-       dispatch({
-         type: 'UPDATE_SEARCH_DATA',
-         payload: data.Search
-       })
-     )
-     .catch(error => console.log(error))
-  },500)
+    updatesSeeds((seeds) => seeds + 1);
+  }, 500);
+
   __handleRefresh = () => {
-    __updateRequest(searchValue);
+    handleUpdateRequest(searchValue);
   }
   _renderItem = ({ item }) => {
     return <SearchListItem
@@ -44,15 +43,15 @@ export default amaznSearchScreen = (props) => {
   return (
     <View style={styles.container}>
       <NavigationEvents
-      onDidBlur={payload => textInputRef.setNativeProps({text: ''})}
-    />
+        onDidBlur={payload => textInputRef.setNativeProps({ text: '' })}
+      />
       <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20 }}>
         <View style={styles.searchBarStyle}>
           <View style={styles.iconStyle}><Ionicons name='ios-search' size={25} color='black' /></View>
-          <TextInput placeholder="Search" 
-          ref={component => textInputRef = component}
-          style={{ width: '100%', paddingLeft: 40 }} placeholderTextColor='black'
-            onChangeText={(e) => __updateRequest(e)}  />
+          <TextInput placeholder="Search"
+            ref={component => textInputRef = component}
+            style={{ width: '100%', paddingLeft: 40 }} placeholderTextColor='black'
+            onChangeText={(e) => handleUpdateRequest(e)} />
         </View>
       </View>
       <FlatList
@@ -65,7 +64,6 @@ export default amaznSearchScreen = (props) => {
             onRefresh={__handleRefresh} />
         }
         data={state.search.data}
-        
         renderItem={_renderItem}
         keyExtractor={(item) => item.imdbID}
       />
