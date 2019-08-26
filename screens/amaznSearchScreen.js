@@ -17,7 +17,7 @@ export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext();
   const [searchValue, updateSearchValue] = useState('')
   const [seeds, updatesSeeds] = useState(0);
-  const [isLoading, fetchedData] = useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=14079790`, seeds);
+  const [isLoading, fetchedData] = useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=`, seeds);
   let textInputRef = useRef();
   
   isLoading ? dispatch({ type: 'ACTIVATE_SPINNER_LOADING' }) : '';
