@@ -14,7 +14,6 @@ export const isIphoneX = () => {
 }
 
 export const debounce = function (fn, d) {
-  console.log(fn);
   let timer = null;
   return function () {
     clearTimeout(timer);

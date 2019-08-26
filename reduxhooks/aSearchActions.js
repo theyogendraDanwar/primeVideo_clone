@@ -2,6 +2,7 @@ export const aSearchInitialState = {
   search: {
     data: [],
     loading: false,
+    error: false,
   }
 }
 
@@ -11,6 +12,12 @@ export const aSearchReducer = (state, action) => {
       return {
         ...state,
         loading: true
+      }
+    case 'UPDATE_SEARCH_ERROR': 
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       }
     case 'UPDATE_SEARCH_DATA':
       return {

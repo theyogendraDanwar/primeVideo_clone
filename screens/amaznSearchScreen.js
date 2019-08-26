@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { NavigationEvents } from 'react-navigation'
+import {NavigationEvents} from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   View,
@@ -11,25 +11,26 @@ import {
 import { debounce } from '../utils/Dimensions'
 import SearchListItem from '../components/component/SearchListItem'
 import { useStateContext } from '../reduxhooks/state';
-import useHttp from '../reduxhooks/useHttp'
 
 export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext();
   const [searchValue, updateSearchValue] = useState('')
-  const [seeds, updatesSeeds] = useState(0);
-  const [isLoading, fetchedData] = useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=`, seeds);
   let textInputRef = useRef();
-  
-  isLoading ? dispatch({ type: 'ACTIVATE_SPINNER_LOADING' }) : '';
-  fetchedData ? dispatch({ type: 'UPDATE_SEARCH_DATA', payload: fetchedData.date.Search }) : '';
-  
-  handleUpdateRequest = debounce((e) => {
-    updateSearchValue(e);
-    updatesSeeds((seeds) => seeds + 1);
-  }, 500);
-
+  const __updateRequest = debounce((e) => {
+    updateSearchValue(e)
+   dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
+   fetch(`https://www.omdbapi.com/?s=${e}&apikey=14079790`)
+     .then(response => response.json())
+     .then(data =>
+       dispatch({
+         type: 'UPDATE_SEARCH_DATA',
+         payload: data.Search
+       })
+     )
+     .catch(error => console.log(error))
+  },500)
   __handleRefresh = () => {
-    handleUpdateRequest(searchValue);
+    __updateRequest(searchValue);
   }
   _renderItem = ({ item }) => {
     return <SearchListItem
@@ -43,15 +44,15 @@ export default amaznSearchScreen = (props) => {
   return (
     <View style={styles.container}>
       <NavigationEvents
-        onDidBlur={payload => textInputRef.setNativeProps({ text: '' })}
-      />
+      onDidBlur={payload => textInputRef.setNativeProps({text: ''})}
+    />
       <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20 }}>
         <View style={styles.searchBarStyle}>
           <View style={styles.iconStyle}><Ionicons name='ios-search' size={25} color='black' /></View>
-          <TextInput placeholder="Search"
-            ref={component => textInputRef = component}
-            style={{ width: '100%', paddingLeft: 40 }} placeholderTextColor='black'
-            onChangeText={(e) => handleUpdateRequest(e)} />
+          <TextInput placeholder="Search" 
+          ref={component => textInputRef = component}
+          style={{ width: '100%', paddingLeft: 40 }} placeholderTextColor='black'
+            onChangeText={(e) => __updateRequest(e)}  />
         </View>
       </View>
       <FlatList
