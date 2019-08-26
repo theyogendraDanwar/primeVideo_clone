@@ -6,28 +6,47 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-export default SearchListItem = ({title, uriLink,...props}) => {
+import { withNavigation } from 'react-navigation';
+import { dimen } from '../../utils/Dimensions'
+
+const SearchListItem = ({title, uriLink, year, imdbID,...props}) => {
   return (
-    <View style={styles.container}>
-      <View>
-        <Image style={styles.imageResult} source={{ uri: uriLink }} />
+    <TouchableOpacity style={styles.container} onPress={()=> {
+      props.navigation.navigate(props._onPress, {
+        imdbID: imdbID
+      })
+    }}>
+      <View style={styles.imageContainer}>
+        <Image  style={{width:'100%', height:'100%'}} resizeMode="contain" source={{ uri: uriLink }} />
       </View>
-      <View>
-        <Text>{title}</Text>
+      <View style={styles.descriptionStyle}>
+        <Text style={{flexWrap:'wrap',fontSize: 17, color: 'white', fontWeight: 'bold'}}>{title}</Text>
+        <Text style={{color:'#8397a2',paddingTop:5}}>{year}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexBasis: dimen('window').width,
     backgroundColor: '#1b252f',
-    marginBottom:5,
+    borderRadius: 5,
+    marginBottom: 5,
     flexDirection: 'row',
-  },imageResult: {
-    height:300
-  },descriptionAvatarStyle: {
+    flex:1
+  },
+  imageContainer: {
+    width: 150,
+    height: 150,
+    backgroundColor: 'white'
+  },
+  descriptionStyle: {
     paddingLeft:10,
-
+    paddingTop: 5,
+    paddingRight:10,
+    flex:1,
   }
 })
+
+export default withNavigation(SearchListItem);

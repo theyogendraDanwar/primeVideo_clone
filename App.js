@@ -84,6 +84,7 @@ const TabNavigator = createBottomTabNavigator(
     Settings: Screens.amaznSettingsScreen,
   },
   {
+    resetOnBlur: true,
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarOnPress: ({ navigation, defaultHandler }) => {
         const { routeName } = navigation.state;
@@ -94,6 +95,8 @@ const TabNavigator = createBottomTabNavigator(
               actions: [NavigationActions.navigate({ routeName: 'amaznHomeScreen' })],
             }));
             break;
+          case 'Search':
+            NavigationActions.navigate({ routeName: 'Search' })
           default:
         }
         defaultHandler();
@@ -174,4 +177,4 @@ const RootStack = createSwitchNavigator(
   },
 )
 
-export default createAppContainer(TabNavigator);
+export default createAppContainer(RootStack);

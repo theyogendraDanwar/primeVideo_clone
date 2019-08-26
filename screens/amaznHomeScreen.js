@@ -23,6 +23,8 @@ import { CartTileWrapper } from '../components/Wrapper/CardTileWrapper';
 //     'Shake or press menu button for dev menu',
 // });
 
+
+
 const data = [
   { title: "Slide1", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },
   { title: "Slide2", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },
