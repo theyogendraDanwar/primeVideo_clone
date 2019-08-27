@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     TouchableOpacity,
     View,
@@ -8,25 +8,33 @@ import {
 } from 'react-native';
 
 import ListItem from './ListItem'
+import { useStateContext } from '../../reduxhooks/state'
 
-export default Tabs = React.forwardRef((props, ref) => {
-    const { tabs, tabListData } = props;
-    const [ activeTab, changeTab ] = useState(0)
+export default Tabs = React.forwardRef(({tabs, tabListData, ...props}, ref) => {
+    const [state, dispatch] = useStateContext();
     _renderItem = ({ item }) => (
         <ListItem
             title={item.title}
             _onPress={'aItemPlay'}
         />
     );
-   
+
     return (
-        <View onLayout={({nativeEvent}) => {
-            props.updateTab(nativeEvent.layout)
-            }}>
+        <View onLayout={({ nativeEvent }) => {
+            dispatch({
+                type: 'UPDATE_TAB_POSITION',
+                payload: nativeEvent.layout
+            }) 
+        }}>
             <View style={styles.tabContainer} >
                 {tabs.map((item, index) => {
                     return (
-                        <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { changeTab(index) }}>
+                        <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => {
+                            dispatch({
+                                type: 'CHANGE_TAB',
+                                payload: index
+                            })
+                        }}>
                             <Text style={{ color: '#d0d8df', fontSize: 18, flex: 1, alignItems: 'center' }}>
                                 {item.title} {index ? '' : `(${tabListData.length})`}
                             </Text>
@@ -34,7 +42,7 @@ export default Tabs = React.forwardRef((props, ref) => {
                     )
                 })
                 }</View>
-            {!activeTab ? <View style={styles.container}>
+            {!state.aItem.activeTab ? <View style={styles.container}>
                 <View style={styles.container}>
                     <FlatList
                         style={{ flex: 1 }}
@@ -45,7 +53,7 @@ export default Tabs = React.forwardRef((props, ref) => {
                 </View>
             </View> :
                 <View style={styles.container} >
-                    <Text style={{color: 'white',padding:20}}>InfoSection</Text>
+                    <Text style={{ color: 'white', padding: 20 }}>InfoSection</Text>
                 </View>
             }
         </View>

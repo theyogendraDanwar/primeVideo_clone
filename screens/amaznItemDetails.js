@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	ScrollView,
@@ -22,10 +22,9 @@ import { useStateContext } from '../reduxhooks/state'
 export default amaznItemDetails = (props) => {
 	const width = dimen('window').width;
 	const height = dimen('window').height;
-	const [fetchData, updatefetchData] = useState(null);
 	const [state, dispatch] = useStateContext();
+	const [fetchData, updatefetchData] = useState(null);
 	const [refreshCount, updateRefreshCount] = useState(0);
-	const [tabPosition, updateTabPosition] = useState(0);
 	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : CONSTANTS.sampleImage;
 	useEffect(() => {
 		if (refreshCount && props.navigation.state.params) {
@@ -68,6 +67,13 @@ export default amaznItemDetails = (props) => {
 		}
 	}, [refreshCount, props.navigation.state.params])
 
+	useEffect(() => {
+		dispatch({
+			type: 'MAKE_TAB_NORMAL',
+			payload: 0
+		})
+	}, []);
+
 	__handleRefresh = () => {
 		dispatch({ type: 'SET_REFRESH_TRUE' })
 		setTimeout(() => {
@@ -92,7 +98,7 @@ export default amaznItemDetails = (props) => {
 	}
 
 	_getPosition = (event) => {
-		event.nativeEvent.contentOffset.y > tabPosition.y ? dispatch({
+		event.nativeEvent.contentOffset.y > state.aItem.tabPosition.y ? dispatch({
 			type: "MAKE_TAB_STICKY",
 			payload: 1
 		}) : dispatch({
@@ -193,7 +199,6 @@ export default amaznItemDetails = (props) => {
 					tabs={CONSTANTS.tabs}
 					tabListData={CONSTANTS.tabListData}
 					sticky={state.aItem.stickyTab}
-					updateTab = {updateTabPosition}
 				/>
 				<View style={{ flex: 1 }}>
 					<View style={{ flex: 1 }}>
@@ -224,7 +229,12 @@ export default amaznItemDetails = (props) => {
 				<View style={styles.tabContainer}>
 					{CONSTANTS.tabs.map((item, index) => {
 						return (
-							<TouchableOpacity style={styles.tabsStyles} key={index}>
+							<TouchableOpacity style={styles.tabsStyles} key={index} onPress={
+								() => dispatch({
+									type: 'CHANGE_TAB',
+									payload: index
+								})
+							}>
 								<Text style={{ color: '#d0d8df', fontSize: 18, flex: 1, alignItems: 'center' }}>
 									{item.title} {index ? '' : `(${CONSTANTS.tabListData.length})`}
 								</Text>
