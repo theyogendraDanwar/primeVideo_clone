@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import {
 	StyleSheet,
 	ScrollView,
 	Text,
-	Dimensions,
 	Image,
 	View,
 	TouchableOpacity
@@ -18,14 +17,26 @@ import CardImage from '../components/component/CardImage'
 import * as CONSTANTS from '../utils/Constants'
 import { dimen } from '../utils/Dimensions'
 import { useStateContext } from '../reduxhooks/state'
-
 export default amaznItemDetails = (props) => {
 	const width = dimen('window').width;
 	const height = dimen('window').height;
 	const minutes = 10;
+	const [fetchData, updatefetchData]  = useState(null);
 	const [state, dispatch] = useStateContext();
+	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : 'https://m.media-amazon.com/images/M/MV5BMDlmMmZhZjQtZDhlMi00MzU0LWIwYjMtNDRhOGE5YzczYjBmXkEyXkFqcGdeQXVyNDQ2MTMzODA@._V1_SX300.jpg"';
 
-	console.log(props);
+	useEffect(() => {
+		if (props.navigation.state.params) {
+			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
+				.then(response => response.json())
+				.then(data =>
+					updatefetchData(data)
+				)
+				.catch(error => console.log(error))
+		}
+	}, [props.navigation.state.params])
+
+	console.log(fetchData);
 
 	_changeFrame = () => {
 		return ({
@@ -63,14 +74,15 @@ export default amaznItemDetails = (props) => {
 				onScroll={event => _getPosition(event)}
 			>
 				<View>
-					<Image source={{ uri: 'https://www.remove.bg/images/samples/combined/s1.jpg' }} style={[{ width: width }, styles.itemImage]} />
+					<Image source={{ uri: `${imageUri}` }} resizeMode="contain" style={[{ width: width }, styles.itemImage]} />
 				</View>
 				<View style={{ flex: 1, padding: 15 }}>
 					<View style={{
 						flex: 1,
 						paddingBottom: 20,
 					}}>
-						<Text style={styles.titleText}>Text</Text>
+						<Text style={styles.titleText}>{
+							fetchData ? fetchData.Title ? fetchData.Title : '' : 'Text'}</Text>
 						<ModalDropdown options={
 							[
 								'option 1',
@@ -111,7 +123,7 @@ export default amaznItemDetails = (props) => {
 					</View>
 					<IconButton
 						titleText={`Resume in ${minutes}`}
-						subText={`-- Remaining`}
+						subText={`${minutes} Remaining`}
 						onPress={_startPlaying}
 						link="https://cdn.onlinewebfonts.com/svg/img_245298.png"
 					/>
@@ -133,7 +145,7 @@ export default amaznItemDetails = (props) => {
 							link="https://assets.dryicons.com/uploads/icon/svg/12631/d3fab4d2-3a88-4439-9a83-3bea496ed86b.svg"
 							title="Wishlist3" />
 					</View>
-					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}>Must you with him from him her were more. In eldest be it result should remark vanity square. Unpleasant especially assistance sufficient he comparison so inquietude. Branch one shy edward stairs turned has law wonder horses. Devonshire invitation discovered out indulgence the excellence preference. Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their sex could defer child. An lose at quit to life do dull. </Text>
+					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchData ? fetchData.Plot ? fetchData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription }</Text>
 				</View>
 				<Tabs
 					tabs={CONSTANTS.tabs}

@@ -19,7 +19,7 @@ export default amaznSearchScreen = (props) => {
   const __updateRequest = debounce((e) => {
     updateSearchValue(e)
    dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
-   fetch(`https://www.omdbapi.com/?s=${e}&apikey=14079790`)
+   fetch(`https://www.omdbapi.com/?s=${e}&apikey=`)
      .then(response => response.json())
      .then(data =>
        dispatch({
