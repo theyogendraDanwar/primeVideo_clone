@@ -14,6 +14,13 @@ export const data = [
 }
 ]
 
+export const cdata = [	
+  { title: "Slide1", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide2", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide3", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide4", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' }	
+];
+
 
 export const carddata = [
 	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },

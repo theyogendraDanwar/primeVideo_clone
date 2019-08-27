@@ -14,7 +14,7 @@ export default amaznHomeScreen = (props) => {
       vertical={true}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      <Carousel data={CONSTANTS.data} isautoplay timelapse={10000} />
+      <Carousel data={CONSTANTS.cdata} isautoplay timelapse={10000} />
       <CartTileWrapper data={CONSTANTS.carddata} cardTileStyle={{
         paddingRight: 10, width: 150,
         height: 150,
