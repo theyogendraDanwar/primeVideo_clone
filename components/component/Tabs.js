@@ -9,7 +9,7 @@ import {
 
 import ListItem from './ListItem'
 
-export default Tabs = (props) => {
+export default Tabs = React.forwardRef((props, ref) => {
     const { tabs, tabListData } = props;
     const [ activeTab, changeTab ] = useState(0)
     _renderItem = ({ item }) => (
@@ -18,9 +18,12 @@ export default Tabs = (props) => {
             _onPress={'aItemPlay'}
         />
     );
+   
     return (
-        <React.Fragment>
-            <View style={styles.tabContainer}>
+        <View onLayout={({nativeEvent}) => {
+            props.updateTab(nativeEvent.layout)
+            }}>
+            <View style={styles.tabContainer} >
                 {tabs.map((item, index) => {
                     return (
                         <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { changeTab(index) }}>
@@ -45,9 +48,9 @@ export default Tabs = (props) => {
                     <Text style={{color: 'white',padding:20}}>InfoSection</Text>
                 </View>
             }
-        </React.Fragment>
+        </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: {

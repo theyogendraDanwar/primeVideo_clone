@@ -33,19 +33,33 @@ const HomeStackNavigator = createStackNavigator({
   aItemDetails: {
     screen: Screens.amaznItemDetails,
     navigationOptions: () => ({
-      headerStyle: {
-        backgroundColor: '#232f38',
+      headerTitle: 'Prime Video Clone',
+      headerTitleStyle: {
+        color:'white',
+        fontSize:18,
+        padding:5,
       },
-      header: () => { (<Text>PrimVideo</Text>) },
+      headerStyle: {
+        backgroundColor: 'black',
+        height:40,
+        color: 'white'
+      },
+      headerLeft: null,
+      tabBarOptions: {
+        elevation: 0,
+        shadowColor: '#232f38',
+        shadowOpacity: 0,
+        shadowOffset: {
+          height: 0,
+        },
+        shadowRadius: 0,
+      }
     })
   },
   aItemPlay: {
     screen: Screens.YoutubeVideo,
-    navigationOptions: () => ({
-      header: null,
-    })
   }
-})
+},{headerLayoutPreset: 'center' })
 
 const TopTabNavigator = createMaterialTopTabNavigator({
   Home: HomeStackNavigator,

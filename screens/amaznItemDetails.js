@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import {
 	StyleSheet,
 	ScrollView,
@@ -25,6 +25,7 @@ export default amaznItemDetails = (props) => {
 	const [fetchData, updatefetchData] = useState(null);
 	const [state, dispatch] = useStateContext();
 	const [refreshCount, updateRefreshCount] = useState(0);
+	const [tabPosition, updateTabPosition] = useState(0);
 	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : CONSTANTS.sampleImage;
 	useEffect(() => {
 		if (refreshCount && props.navigation.state.params) {
@@ -43,13 +44,16 @@ export default amaznItemDetails = (props) => {
 					})
 				})
 		} else if (props.navigation.state.params) {
+			dispatch({ type: 'SET_REFRESH_TRUE' })
 			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
 				.then(response => response.json())
 				.then(data => {
-					dispatch({
-						type: 'SET_REFRESH_FALSE'
-					})
 					updatefetchData(data)
+					setTimeout(() => {
+						dispatch({
+							type: 'SET_REFRESH_FALSE'
+						})
+					}, 1000);
 				})
 				.catch(error => {
 					dispatch({
@@ -65,10 +69,10 @@ export default amaznItemDetails = (props) => {
 	}, [refreshCount, props.navigation.state.params])
 
 	__handleRefresh = () => {
-		dispatch({type:'SET_REFRESH_TRUE'})
+		dispatch({ type: 'SET_REFRESH_TRUE' })
 		setTimeout(() => {
 			updateRefreshCount((refreshCount) => refreshCount + 1)
-		},1000);
+		}, 1000);
 	}
 	_changeFrame = () => {
 		return ({
@@ -88,7 +92,7 @@ export default amaznItemDetails = (props) => {
 	}
 
 	_getPosition = (event) => {
-		event.nativeEvent.contentOffset.y > 680 ? dispatch({
+		event.nativeEvent.contentOffset.y > tabPosition.y ? dispatch({
 			type: "MAKE_TAB_STICKY",
 			payload: 1
 		}) : dispatch({
@@ -189,6 +193,7 @@ export default amaznItemDetails = (props) => {
 					tabs={CONSTANTS.tabs}
 					tabListData={CONSTANTS.tabListData}
 					sticky={state.aItem.stickyTab}
+					updateTab = {updateTabPosition}
 				/>
 				<View style={{ flex: 1 }}>
 					<View style={{ flex: 1 }}>

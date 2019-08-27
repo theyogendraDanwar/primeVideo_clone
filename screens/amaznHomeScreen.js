@@ -8,7 +8,7 @@ import Carousel from '../components/component/Carousel';
 import { CartTileWrapper } from '../components/Wrapper/CardTileWrapper';
 import * as CONSTANTS from '../utils/Constants'
 
-export default amaznHomeScreen = (props) => { 
+export default amaznHomeScreen = (props) => {
   return (
     <ScrollView
       vertical={true}
@@ -19,14 +19,14 @@ export default amaznHomeScreen = (props) => {
         paddingRight: 10, width: 150,
         height: 150,
         borderRadius: 5
-      }} title="Best Movies in Hindi" onPress="aItemDetails"/>
+      }} title="Best Movies in Hindi" onPress="aItemDetails" />
       <CartTileWrapper data={CONSTANTS.carddata} cardTileStyle={{
         paddingRight: 10, width: 150,
         height: 150,
         borderRadius: 5
-      }} title="Popular Movies" onPress="aItemDetails"/>
+      }} title="Popular Movies" onPress="aItemDetails" />
       <CartTileWrapper data={CONSTANTS.carddata} cardTileStyle={{
-        paddingRight: 10, 
+        paddingRight: 10,
         width: 150,
         height: 150,
         borderRadius: 5
