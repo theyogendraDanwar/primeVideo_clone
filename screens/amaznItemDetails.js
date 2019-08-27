@@ -1,7 +1,4 @@
 import React from 'react';
-import ModalDropdown from '../components/component/ModalDropdown';
-import IconButton from '../components/component/IconButton';
-import Tabs from '../components/component/Tabs'
 import {
 	StyleSheet,
 	ScrollView,
@@ -12,43 +9,28 @@ import {
 	TouchableOpacity
 } from 'react-native'
 
+import ModalDropdown from '../components/component/ModalDropdown';
+import IconButton from '../components/component/IconButton';
+import Tabs from '../components/component/Tabs'
 import { CartTileWrapper } from '../components/Wrapper/CardTileWrapper'
 import CircleButton from '../components/component/CircleButton'
 import CardImage from '../components/component/CardImage'
-import { useStateContext } from '../reduxhooks/state';
-
-const carddata = [
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' }, { alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-	{ alttext: 'image1', link: 'https://www.boostlabs.com/wp-content/uploads/2017/10/Steep-Mountain@4x-150x150.png' },
-]
-
-const tabListData = [
-	{ title: 'episode 1', subText: 'text1', linkto: '' },
-	{ title: 'episode 2', subText: 'text2', linkto: '' },
-	{ title: 'episode 3', subText: 'text3', linkto: '' },
-	{ title: 'episode 4', subText: 'text4', linkto: '' },
-	{ title: 'episode 5', subText: 'text5', linkto: '' },
-]
+import * as CONSTANTS from '../utils/Constants'
+import { dimen } from '../utils/Dimensions'
+import { useStateContext } from '../reduxhooks/state'
 
 export default amaznItemDetails = (props) => {
-	const width = Dimensions.get('window').width;
-	const height = Dimensions.get('window').height;
+	const width = dimen('window').width;
+	const height = dimen('window').height;
 	const minutes = 10;
 	const [state, dispatch] = useStateContext();
-	const tabs = [
-		{ title: 'tab1' },
-		{ title: 'tab3' }];
+
+	console.log(props);
 
 	_changeFrame = () => {
 		return ({
-			width: Dimensions.get('window').width,
-			height: Dimensions.get('window').height,
+			width: width,
+			height: height,
 			top: 0,
 			bottom: 0,
 			left: 0,
@@ -110,12 +92,12 @@ export default amaznItemDetails = (props) => {
 							]
 						}
 							textStyle={{
-								width: Dimensions.get('window').width,
+								width: width,
 								color: 'white'
 							}}
 							dropdownStyle={{
 								position: 'absolute',
-								width: Dimensions.get('window').width,
+								width: width,
 								height: height,
 								padding: 15,
 								color: 'white'
@@ -154,13 +136,13 @@ export default amaznItemDetails = (props) => {
 					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}>Must you with him from him her were more. In eldest be it result should remark vanity square. Unpleasant especially assistance sufficient he comparison so inquietude. Branch one shy edward stairs turned has law wonder horses. Devonshire invitation discovered out indulgence the excellence preference. Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their sex could defer child. An lose at quit to life do dull. </Text>
 				</View>
 				<Tabs
-					tabs={tabs}
-					tabListData={tabListData}
+					tabs={CONSTANTS.tabs}
+					tabListData={CONSTANTS.tabListData}
 					sticky={state.aItem.stickyTab}
 				/>
 				<View style={{ flex: 1 }}>
 					<View style={{ flex: 1 }}>
-						<CartTileWrapper data={carddata}
+						<CartTileWrapper data={CONSTANTS.data}
 							cardTileStyle={{
 								paddingRight: 10,
 								marginRight: 10,
@@ -177,7 +159,7 @@ export default amaznItemDetails = (props) => {
 								height: 100,
 								borderRadius: 5,
 							}}
-								data={carddata}
+								data={CONSTANTS.carddata}
 							/>
 						</View>
 					</View>
@@ -185,11 +167,11 @@ export default amaznItemDetails = (props) => {
 			</ScrollView>
 			{state.aItem.stickyTab ?
 				<View style={styles.tabContainer}>
-					{tabs.map((item, index) => {
+					{CONSTANTS.tabs.map((item, index) => {
 						return (
 							<TouchableOpacity style={styles.tabsStyles} key={index}>
-								<Text style={{ color: '#d0d8df', fontSize: 20, flex: 1, alignItems: 'center' }}>
-									{item.title} {index ? '' : `(${tabListData.length})`}
+								<Text style={{ color: '#d0d8df', fontSize: 18, flex: 1, alignItems: 'center' }}>
+									{item.title} {index ? '' : `(${CONSTANTS.tabListData.length})`}
 								</Text>
 							</TouchableOpacity>
 						)

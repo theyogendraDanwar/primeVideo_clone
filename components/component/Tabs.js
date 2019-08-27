@@ -11,7 +11,7 @@ import ListItem from './ListItem'
 
 export default Tabs = (props) => {
     const { tabs, tabListData } = props;
-    const [activeTab, changeTab] = useState(0)
+    const [ activeTab, changeTab ] = useState(0)
     _renderItem = ({ item }) => (
         <ListItem
             title={item.title}
@@ -24,7 +24,7 @@ export default Tabs = (props) => {
                 {tabs.map((item, index) => {
                     return (
                         <TouchableOpacity style={styles.tabsStyles} key={index} onPress={() => { changeTab(index) }}>
-                            <Text style={{ color: '#d0d8df', fontSize: 20, flex: 1, alignItems: 'center' }}>
+                            <Text style={{ color: '#d0d8df', fontSize: 18, flex: 1, alignItems: 'center' }}>
                                 {item.title} {index ? '' : `(${tabListData.length})`}
                             </Text>
                         </TouchableOpacity>
@@ -37,12 +37,12 @@ export default Tabs = (props) => {
                         style={{ flex: 1 }}
                         data={tabListData}
                         renderItem={_renderItem}
-                        keyExtractor={(item, index) => item.title}
+                        keyExtractor={(item) => item.title}
                     />
                 </View>
             </View> :
                 <View style={styles.container} >
-                    <Text>InfoSection</Text>
+                    <Text style={{color: 'white',padding:20}}>InfoSection</Text>
                 </View>
             }
         </React.Fragment>
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#0b1620',
+        color: 'white'
     },
     tabContainer: {
         flex: 1,
