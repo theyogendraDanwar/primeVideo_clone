@@ -5,7 +5,8 @@ import {
 	Text,
 	Image,
 	View,
-	TouchableOpacity
+	TouchableOpacity,
+	RefreshControl
 } from 'react-native'
 
 import ModalDropdown from '../components/component/ModalDropdown';
@@ -17,27 +18,38 @@ import CardImage from '../components/component/CardImage'
 import * as CONSTANTS from '../utils/Constants'
 import { dimen } from '../utils/Dimensions'
 import { useStateContext } from '../reduxhooks/state'
+
 export default amaznItemDetails = (props) => {
 	const width = dimen('window').width;
 	const height = dimen('window').height;
-	const minutes = 10;
 	const [fetchData, updatefetchData]  = useState(null);
 	const [state, dispatch] = useStateContext();
-	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : 'https://m.media-amazon.com/images/M/MV5BMDlmMmZhZjQtZDhlMi00MzU0LWIwYjMtNDRhOGE5YzczYjBmXkEyXkFqcGdeQXVyNDQ2MTMzODA@._V1_SX300.jpg"';
+	const [refreshCount, updateRefreshCount] = useState(0);
+	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : CONSTANTS.sampleImage;
 
 	useEffect(() => {
-		if (props.navigation.state.params) {
+		if (refreshCount || props.navigation.state.params.imdbID) {
+			dispatch({type: 'SET_REFRESH_TRUE'})
 			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
 				.then(response => response.json())
-				.then(data =>
+				.then(data =>{
 					updatefetchData(data)
-				)
-				.catch(error => console.log(error))
+					dispatch({
+						type: 'SET_REFRESH_FALSE'
+					})
+				})
+				.catch(error => {
+					dispatch({
+						type: 'SET_REFRESH_ERROR',
+						payload: error
+					})
+				})
 		}
-	}, [props.navigation.state.params])
+	}, [refreshCount,props.navigation.state.params])
 
-	console.log(fetchData);
-
+	__handleRefresh = () => {
+		updateRefreshCount((refreshCount) =>refreshCount + 1);
+	}
 	_changeFrame = () => {
 		return ({
 			width: width,
@@ -58,7 +70,7 @@ export default amaznItemDetails = (props) => {
 	_getPosition = (event) => {
 		event.nativeEvent.contentOffset.y > 680 ? dispatch({
 			type: "MAKE_TAB_STICKY",
-			payload: event.nativeEvent.contentOffset.y
+			payload: 1
 		}) : dispatch({
 			type: 'MAKE_TAB_NORMAL',
 			payload: 0
@@ -69,6 +81,12 @@ export default amaznItemDetails = (props) => {
 			<ScrollView
 				vertical={true}
 				style={{ flex: 1, backgroundColor: 'black' }}
+				refreshControl={
+					<RefreshControl
+						refreshing={state.aItem.loading}
+						onRefresh={__handleRefresh}
+					/>
+				}
 				showsHorizontalScrollIndicator={false}
 				showsVerticalScrollIndicator={false}
 				onScroll={event => _getPosition(event)}
@@ -122,8 +140,8 @@ export default amaznItemDetails = (props) => {
 						/>
 					</View>
 					<IconButton
-						titleText={`Resume in ${minutes}`}
-						subText={`${minutes} Remaining`}
+						titleText={"Play"}
+						subText={"Video will be played on the youtube"}
 						onPress={_startPlaying}
 						link="https://cdn.onlinewebfonts.com/svg/img_245298.png"
 					/>
