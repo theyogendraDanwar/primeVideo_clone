@@ -1,5 +1,5 @@
 export const aItemInitialState = {
-  aItem:{
+  aItem: {
     stickyTab: 0,
     loading: false,
     error: false,
@@ -13,7 +13,7 @@ export const aItemReducer = (state, action) => {
         ...state,
         stickyTab: action.payload
       }
-    case 'SET_REFRESH_TRUE': 
+    case 'SET_REFRESH_TRUE':
       return {
         ...state,
         loading: true

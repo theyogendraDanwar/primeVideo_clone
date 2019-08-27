@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	ScrollView,
@@ -22,21 +22,19 @@ import { useStateContext } from '../reduxhooks/state'
 export default amaznItemDetails = (props) => {
 	const width = dimen('window').width;
 	const height = dimen('window').height;
-	const [fetchData, updatefetchData]  = useState(null);
+	const [fetchData, updatefetchData] = useState(null);
 	const [state, dispatch] = useStateContext();
 	const [refreshCount, updateRefreshCount] = useState(0);
 	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : CONSTANTS.sampleImage;
-
 	useEffect(() => {
-		if (refreshCount || props.navigation.state.params.imdbID) {
-			dispatch({type: 'SET_REFRESH_TRUE'})
+		if (refreshCount && props.navigation.state.params) {
 			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
 				.then(response => response.json())
-				.then(data =>{
-					updatefetchData(data)
+				.then(data => {
 					dispatch({
 						type: 'SET_REFRESH_FALSE'
 					})
+					updatefetchData(data)
 				})
 				.catch(error => {
 					dispatch({
@@ -44,11 +42,33 @@ export default amaznItemDetails = (props) => {
 						payload: error
 					})
 				})
+		} else if (props.navigation.state.params) {
+			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
+				.then(response => response.json())
+				.then(data => {
+					dispatch({
+						type: 'SET_REFRESH_FALSE'
+					})
+					updatefetchData(data)
+				})
+				.catch(error => {
+					dispatch({
+						type: 'SET_REFRESH_ERROR',
+						payload: error
+					})
+				})
+		} else {
+			dispatch({
+				type: 'SET_REFRESH_FALSE'
+			})
 		}
-	}, [refreshCount,props.navigation.state.params])
+	}, [refreshCount, props.navigation.state.params])
 
 	__handleRefresh = () => {
-		updateRefreshCount((refreshCount) =>refreshCount + 1);
+		dispatch({type:'SET_REFRESH_TRUE'})
+		setTimeout(() => {
+			updateRefreshCount((refreshCount) => refreshCount + 1)
+		},1000);
 	}
 	_changeFrame = () => {
 		return ({
@@ -163,7 +183,7 @@ export default amaznItemDetails = (props) => {
 							link="https://assets.dryicons.com/uploads/icon/svg/12631/d3fab4d2-3a88-4439-9a83-3bea496ed86b.svg"
 							title="Wishlist3" />
 					</View>
-					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchData ? fetchData.Plot ? fetchData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription }</Text>
+					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchData ? fetchData.Plot ? fetchData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription}</Text>
 				</View>
 				<Tabs
 					tabs={CONSTANTS.tabs}
