@@ -12,7 +12,7 @@ My Aim was to build the things from the scratch so used the module as minimal as
 
 ## Things which are used in project
 <p>
-<a style="text-decoration:none" href="/https://github.com/theyogendraDanwar/react-hooks">react-hooks</a> -> for global state management.</p>
+<a style="text-decoration:none" href="https://github.com/theyogendraDanwar/react-hooks">react-hooks</a> -> for global state management.</p>
 <p>
 react-navigation -> for navigation between screens.
 </p>
