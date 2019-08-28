@@ -95,7 +95,7 @@ export default amaznItemDetails = (props) => {
 				onScroll={event => _getPosition(event)}
 			>
 				<View>
-					<Image source={{ uri: `http://image.tmdb.org/t/p/w500/${imageUri}` }} resizeMode="contain" style={[{ width: width }, styles.itemImage]} />
+					<Image source={{ uri: `https://image.tmdb.org/t/p/w500/${imageUri}` }} resizeMode="contain" style={[{ width: width }, styles.itemImage]} />
 				</View>
 				<View style={{ flex: 1, padding: 15 }}>
 					<View style={{
