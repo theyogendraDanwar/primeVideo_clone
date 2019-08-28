@@ -11,7 +11,7 @@ const CardTile = ({ data, styles, onPress , ...props}) => {
     )}>
        <Image
     style={Object.assign(styles)}
-    source={{ uri: `http://image.tmdb.org/t/p/w500/${data.backdrop_path}` }} />
+    source={{ uri: `https://image.tmdb.org/t/p/w500/${data.backdrop_path}` }} />
     </TouchableOpacity>
   )
 }

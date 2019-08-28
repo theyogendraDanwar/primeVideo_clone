@@ -65,7 +65,7 @@ const Carousel = ({ data, isautoplay, timelapse, _onPress, ...props }) => {
           return (
             <ImageBackground
               style={{ width: width, position: "relative", height: 200 }}
-              source={{ uri: `http://image.tmdb.org/t/p/w500/${item.backdrop_path}` }}
+              source={{ uri: `https://image.tmdb.org/t/p/w500/${item.backdrop_path}` }}
               key={index}
               resizeMode="contain"
             >
