@@ -52,7 +52,7 @@ export default amaznSearchScreen = (props) => {
           <TextInput placeholder="Search" 
           ref={component => textInputRef = component}
           style={{ width: '100%', paddingLeft: 40 }} placeholderTextColor='black'
-            onChangeText={(e) => __updateRequest(e)}  />
+            onChangeText={(e) => __updateRequest(e.toLowerCase())}  />
         </View>
       </View>
       <FlatList
