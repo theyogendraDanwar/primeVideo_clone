@@ -15,10 +15,10 @@ export const data = [
 ]
 
 export const cdata = [	
-  { title: "Slide1", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
-  { title: "Slide2", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
-  { title: "Slide3", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
-  { title: "Slide4", link: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' }	
+  { title: "Slide1", backdrop_path: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide2", backdrop_path: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide3", backdrop_path: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' },	
+  { title: "Slide4", backdrop_path: 'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg' }	
 ];
 
 
@@ -56,3 +56,7 @@ export const tabs = [
 //     'Double tap R on your keyboard to reload,\n' +
 //     'Shake or press menu button for dev menu',
 // });
+
+export const CONFIG = {
+  APIKEY: ''
+}

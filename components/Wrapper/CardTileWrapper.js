@@ -7,7 +7,7 @@ export const CartTileWrapper = (props) => {
   const {data, title, cardTileStyle, onPress} = props;
   return (
     <View style={styles.container}>
-      <Text style={[{ textAlign: "left", padding: 10, color: 'white', backgroundColor: 'pink' }, { width: width }]}>{title}</Text>
+      <Text style={[{ textAlign: "left", padding: 10, color: 'white' }, { width: width }]}>{title}</Text>
       <ScrollView
         horizontal={true}
         removeClippedSubviews={true}

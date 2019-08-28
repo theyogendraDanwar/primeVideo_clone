@@ -11,19 +11,21 @@ import {
 import { debounce } from '../utils/Dimensions'
 import SearchListItem from '../components/component/SearchListItem'
 import { useStateContext } from '../reduxhooks/state'
+import * as CONSTANTS from '../utils/Constants'
 import * as hooks from '../reduxhooks/useHttp'
 
 export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext()
   const [searchValue, updateSearchValue] = useState('')
   const [refreshCount, updateRefreshCount] = useState(0)
-  const [isLoading,fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=`, refreshCount)
+  const [isLoading,fetchedData] = hooks.useHttp(`https://api.themoviedb.org/3/search/movie?${CONSTANTS.CONFIG.APIKEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`, refreshCount)
+
   let textInputRef = useRef();
   useEffect(() => {
     if (!isLoading && fetchedData){
       dispatch({
         type: 'UPDATE_SEARCH_DATA',
-        payload: fetchedData.Search
+        payload: fetchedData.results
       })
     } else if (isLoading)  {
       dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
@@ -33,7 +35,7 @@ export default amaznSearchScreen = (props) => {
   const __updateRequest = debounce((e) => {
     updateSearchValue(e)
     updateRefreshCount((refreshCount) =>  refreshCount +1);
-  },300)
+  },350)
 
   __handleRefresh = () => {
     dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
@@ -42,10 +44,10 @@ export default amaznSearchScreen = (props) => {
 
   _renderItem = ({ item }) => {
     return <SearchListItem
-      title={item.Title}
-      year={item.Year}
-      uriLink={item.Poster}
-      imdbID={item.imdbID}
+      title={item.title}
+      year={item.release_date}
+      uriLink={item.poster_path}
+      imdbID={item.id}
       _onPress={'aItemDetails'}
     />
   }
@@ -74,7 +76,7 @@ export default amaznSearchScreen = (props) => {
         }
         data={state.search.data}
         renderItem={_renderItem}
-        keyExtractor={(item) => item.imdbID}
+        keyExtractor={(item) => item.id}
       />
     </View>
   )

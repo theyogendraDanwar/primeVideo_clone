@@ -5,11 +5,13 @@ import {
   Text,
   ImageBackground,
   StyleSheet,
+  TouchableOpacity
 } from "react-native";
+import { withNavigation } from 'react-navigation'
 
 import { dimen } from '../../utils/Dimensions'
 
-const Carousel = ({ data, isautoplay, timelapse, ...props }) => {
+const Carousel = ({ data, isautoplay, timelapse, _onPress, ...props }) => {
   const [position, updateCarouselPosition] = useState(0);
   const myRef = useRef(0);
   const width = dimen("window").width;
@@ -63,9 +65,24 @@ const Carousel = ({ data, isautoplay, timelapse, ...props }) => {
           return (
             <ImageBackground
               style={{ width: width, position: "relative", height: 200 }}
-              source={{ uri: `${item.link}` }}
+              source={{ uri: `http://image.tmdb.org/t/p/w500/${item.backdrop_path}` }}
               key={index}
+              resizeMode="contain"
             >
+              <TouchableOpacity style={{position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  top:0,
+                  bottom:0,
+                  backgroundColor: 'transparent',
+                  zIndex:10,
+                  width: width
+                }}
+                onPress={() =>props.navigation.navigate(_onPress, {
+                imdbID: item.id
+              })}>
+                <Text>""</Text>
+              </TouchableOpacity>
               <Text
                 style={{
                   position: "absolute",
@@ -91,10 +108,10 @@ const Carousel = ({ data, isautoplay, timelapse, ...props }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     flex: 1,
     top: 0
   }
 });
 
-export default Carousel;
+export default withNavigation(Carousel);

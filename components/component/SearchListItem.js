@@ -17,7 +17,7 @@ const SearchListItem = ({title, uriLink, year, imdbID,...props}) => {
       })
     }}>
       <View style={styles.imageContainer}>
-        <Image  style={{width:'100%', height:'100%'}} resizeMode="contain" source={{ uri: uriLink }} />
+        <Image  style={{width:'100%', height:'100%'}} resizeMode="contain" source={{ uri: `http://image.tmdb.org/t/p/w300${uriLink}` }} />
       </View>
       <View style={styles.descriptionStyle}>
         <Text style={{flexWrap:'wrap',fontSize: 17, color: 'white', fontWeight: 'bold'}}>{title}</Text>

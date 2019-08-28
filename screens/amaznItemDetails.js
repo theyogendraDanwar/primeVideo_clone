@@ -26,8 +26,10 @@ export default amaznItemDetails = (props) => {
 	const [state, dispatch] = useStateContext();
 	const [refreshCount, updateRefreshCount] = useState(0);
 	const url = props.navigation.state.params ? props.navigation.state.params.imdbID : '';
-	const [isLoading, fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?i=${url}&apikey=`, refreshCount)
-	const imageUri = fetchedData ? fetchedData.Poster ? fetchedData.Poster : CONSTANTS.sampleImage : CONSTANTS.sampleImage;
+	const [isLoading, fetchedData] = hooks.useHttp(`https://api.themoviedb.org/3/movie/${url}?${CONSTANTS.CONFIG.APIKEY}&language=en-US
+	`, refreshCount)
+	const imageUri = fetchedData ? fetchedData.backdrop_path ? fetchedData.backdrop_path : CONSTANTS.sampleImage : CONSTANTS.sampleImage;
+
 	useEffect(() => {
 		if (isLoading) {
 			dispatch({ type: 'SET_REFRESH_TRUE' })
@@ -93,7 +95,7 @@ export default amaznItemDetails = (props) => {
 				onScroll={event => _getPosition(event)}
 			>
 				<View>
-					<Image source={{ uri: `${imageUri}` }} resizeMode="contain" style={[{ width: width }, styles.itemImage]} />
+					<Image source={{ uri: `http://image.tmdb.org/t/p/w500/${imageUri}` }} resizeMode="contain" style={[{ width: width }, styles.itemImage]} />
 				</View>
 				<View style={{ flex: 1, padding: 15 }}>
 					<View style={{
@@ -101,7 +103,7 @@ export default amaznItemDetails = (props) => {
 						paddingBottom: 20,
 					}}>
 						<Text style={styles.titleText}>{
-							fetchedData ? fetchedData.Title ? fetchedData.Title : 'Text' : 'Text'}</Text>
+							fetchedData ? fetchedData.title ? fetchedData.title : 'Text' : 'Text'}</Text>
 						<ModalDropdown options={
 							[
 								'option 1',
@@ -164,7 +166,7 @@ export default amaznItemDetails = (props) => {
 							link="https://assets.dryicons.com/uploads/icon/svg/12631/d3fab4d2-3a88-4439-9a83-3bea496ed86b.svg"
 							title="Wishlist3" />
 					</View>
-					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchedData ? fetchedData.Plot ? fetchedData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription}</Text>
+					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchedData ? fetchedData.overview ? fetchedData.overview : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription}</Text>
 				</View>
 				<Tabs
 					tabs={CONSTANTS.tabs}

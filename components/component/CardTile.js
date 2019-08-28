@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation'
 
 
-const CardTile = (props) => {
-  const { data, styles, onPress } = props;
+const CardTile = ({ data, styles, onPress , ...props}) => {
   const navigateto = onPress ? onPress : '';
   return (
-    <TouchableOpacity onPress={() => props.navigation.navigate(navigateto)}>
+    <TouchableOpacity onPress={() => props.navigation.navigate(
+      navigateto, {imdbID: data.id}
+    )}>
        <Image
     style={Object.assign(styles)}
-    source={{ uri: data.link }} />
+    source={{ uri: `http://image.tmdb.org/t/p/w500/${data.backdrop_path}` }} />
     </TouchableOpacity>
   )
 }
