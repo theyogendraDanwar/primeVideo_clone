@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useStateContext } from '../reduxhooks/state'
 
 export const useHttp = (url, dependencies) => {
   const [isLoading, setIsLoading] = useState(false);

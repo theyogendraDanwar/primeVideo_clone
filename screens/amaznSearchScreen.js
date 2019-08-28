@@ -17,7 +17,7 @@ export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext()
   const [searchValue, updateSearchValue] = useState('')
   const [refreshCount, updateRefreshCount] = useState(0)
-  const [isLoading,fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=14079790`, refreshCount)
+  const [isLoading,fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=`, refreshCount)
   let textInputRef = useRef();
   useEffect(() => {
     if (!isLoading && fetchedData){

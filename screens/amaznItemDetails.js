@@ -26,7 +26,7 @@ export default amaznItemDetails = (props) => {
 	const [state, dispatch] = useStateContext();
 	const [refreshCount, updateRefreshCount] = useState(0);
 	const url = props.navigation.state.params ? props.navigation.state.params.imdbID : '';
-	const [isLoading, fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?i=${url}&apikey=14079790`, refreshCount)
+	const [isLoading, fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?i=${url}&apikey=`, refreshCount)
 	const imageUri = fetchedData ? fetchedData.Poster ? fetchedData.Poster : CONSTANTS.sampleImage : CONSTANTS.sampleImage;
 	useEffect(() => {
 		if (isLoading) {
