@@ -18,56 +18,30 @@ import CardImage from '../components/component/CardImage'
 import * as CONSTANTS from '../utils/Constants'
 import { dimen } from '../utils/Dimensions'
 import { useStateContext } from '../reduxhooks/state'
+import * as hooks from '../reduxhooks/useHttp'
 
 export default amaznItemDetails = (props) => {
 	const width = dimen('window').width;
 	const height = dimen('window').height;
 	const [state, dispatch] = useStateContext();
-	const [fetchData, updatefetchData] = useState(null);
 	const [refreshCount, updateRefreshCount] = useState(0);
-	const imageUri = fetchData ? fetchData.Poster ? fetchData.Poster : '' : CONSTANTS.sampleImage;
+	const url = props.navigation.state.params ? props.navigation.state.params.imdbID : '';
+	const [isLoading, fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?i=${url}&apikey=14079790`, refreshCount)
+	const imageUri = fetchedData ? fetchedData.Poster ? fetchedData.Poster : CONSTANTS.sampleImage : CONSTANTS.sampleImage;
 	useEffect(() => {
-		if (refreshCount && props.navigation.state.params) {
-			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
-				.then(response => response.json())
-				.then(data => {
-					dispatch({
-						type: 'SET_REFRESH_FALSE'
-					})
-					updatefetchData(data)
-				})
-				.catch(error => {
-					dispatch({
-						type: 'SET_REFRESH_ERROR',
-						payload: error
-					})
-				})
-		} else if (props.navigation.state.params) {
+		if (isLoading) {
 			dispatch({ type: 'SET_REFRESH_TRUE' })
-			fetch(`https://www.omdbapi.com/?i=${props.navigation.state.params.imdbID}&apikey=`)
-				.then(response => response.json())
-				.then(data => {
-					updatefetchData(data)
-					setTimeout(() => {
-						dispatch({
-							type: 'SET_REFRESH_FALSE'
-						})
-					}, 1000);
-				})
-				.catch(error => {
-					dispatch({
-						type: 'SET_REFRESH_ERROR',
-						payload: error
-					})
-				})
-		} else {
-			dispatch({
-				type: 'SET_REFRESH_FALSE'
-			})
+		} else if (!isLoading) {
+			setTimeout(() => {
+				dispatch({ type: 'SET_REFRESH_FALSE' })
+			}, 1000);
 		}
-	}, [refreshCount, props.navigation.state.params])
+	}, [isLoading])
 
 	useEffect(() => {
+		if (props.navigation.state.params) {
+			updateRefreshCount((refreshCount) => refreshCount + 1)
+		}
 		dispatch({
 			type: 'MAKE_TAB_NORMAL',
 			payload: 0
@@ -75,10 +49,7 @@ export default amaznItemDetails = (props) => {
 	}, []);
 
 	__handleRefresh = () => {
-		dispatch({ type: 'SET_REFRESH_TRUE' })
-		setTimeout(() => {
-			updateRefreshCount((refreshCount) => refreshCount + 1)
-		}, 1000);
+		updateRefreshCount((refreshCount) => refreshCount + 1)
 	}
 	_changeFrame = () => {
 		return ({
@@ -130,7 +101,7 @@ export default amaznItemDetails = (props) => {
 						paddingBottom: 20,
 					}}>
 						<Text style={styles.titleText}>{
-							fetchData ? fetchData.Title ? fetchData.Title : '' : 'Text'}</Text>
+							fetchedData ? fetchedData.Title ? fetchedData.Title : 'Text' : 'Text'}</Text>
 						<ModalDropdown options={
 							[
 								'option 1',
@@ -193,7 +164,7 @@ export default amaznItemDetails = (props) => {
 							link="https://assets.dryicons.com/uploads/icon/svg/12631/d3fab4d2-3a88-4439-9a83-3bea496ed86b.svg"
 							title="Wishlist3" />
 					</View>
-					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchData ? fetchData.Plot ? fetchData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription}</Text>
+					<Text style={{ color: 'white', marginBottom: 15, marginTop: 15 }}> {fetchedData ? fetchedData.Plot ? fetchedData.Plot : CONSTANTS.sampleDescription : CONSTANTS.sampleDescription}</Text>
 				</View>
 				<Tabs
 					tabs={CONSTANTS.tabs}

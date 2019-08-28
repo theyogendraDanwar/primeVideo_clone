@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {NavigationEvents} from 'react-navigation'
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import {
   View,
   StyleSheet,
@@ -10,28 +10,36 @@ import {
 } from 'react-native'
 import { debounce } from '../utils/Dimensions'
 import SearchListItem from '../components/component/SearchListItem'
-import { useStateContext } from '../reduxhooks/state';
+import { useStateContext } from '../reduxhooks/state'
+import * as hooks from '../reduxhooks/useHttp'
 
 export default amaznSearchScreen = (props) => {
-  const [state, dispatch] = useStateContext();
+  const [state, dispatch] = useStateContext()
   const [searchValue, updateSearchValue] = useState('')
+  const [refreshCount, updateRefreshCount] = useState(0)
+  const [isLoading,fetchedData] = hooks.useHttp(`https://www.omdbapi.com/?s=${searchValue}&apikey=14079790`, refreshCount)
   let textInputRef = useRef();
+  useEffect(() => {
+    if (!isLoading && fetchedData){
+      dispatch({
+        type: 'UPDATE_SEARCH_DATA',
+        payload: fetchedData.Search
+      })
+    } else if (isLoading)  {
+      dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
+    }
+  }, [isLoading, fetchedData])
+
   const __updateRequest = debounce((e) => {
     updateSearchValue(e)
-   dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
-   fetch(`https://www.omdbapi.com/?s=${e}&apikey=`)
-     .then(response => response.json())
-     .then(data =>
-       dispatch({
-         type: 'UPDATE_SEARCH_DATA',
-         payload: data.Search
-       })
-     )
-     .catch(error => console.log(error))
-  },500)
+    updateRefreshCount((refreshCount) =>  refreshCount +1);
+  },300)
+
   __handleRefresh = () => {
+    dispatch({ type: 'ACTIVATE_SPINNER_LOADING' })
     __updateRequest(searchValue);
   }
+
   _renderItem = ({ item }) => {
     return <SearchListItem
       title={item.Title}
