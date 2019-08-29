@@ -26,7 +26,7 @@ export default amaznItemDetails = (props) => {
 	const [state, dispatch] = useStateContext();
 	const [refreshCount, updateRefreshCount] = useState(0);
 	const url = props.navigation.state.params ? props.navigation.state.params.imdbID : '';
-	const [isLoading, fetchedData] = hooks.useHttp(`https://api.themoviedb.org/3/movie/${url}?${CONSTANTS.CONFIG.APIKEY}&language=en-US
+	const [isLoading, fetchedData] = hooks.useHttp(`${CONSTANTS.CONFIG.API_URL}/${CONSTANTS.CONFIG.MOVIE_CALL}/${url}?${CONSTANTS.CONFIG.APIKEY}&language=en-US
 	`, refreshCount)
 	const imageUri = fetchedData ? fetchedData.backdrop_path ? fetchedData.backdrop_path : CONSTANTS.sampleImage : CONSTANTS.sampleImage;
 

@@ -12,15 +12,15 @@ import * as CONSTANTS from '../utils/Constants'
 
 export default amaznHomeScreen = (props) => {
   const [refreshCount, updateRefreshCount] = useState(0);
-  const [isNowPlayingLoading, fetchedData] = hooks.useHttp(`https://api.themoviedb.org/3/movie/now_playing?${CONSTANTS.CONFIG.APIKEY}&language=en-US`, refreshCount);
-  const [isPopularLoading, fetchPopularData] = hooks.useHttp(`https://api.themoviedb.org/3/movie/popular?${CONSTANTS.CONFIG.APIKEY}&language=en-US`, refreshCount);
-  const [isTopRatedLoading, fetchTopRatedData] = hooks.useHttp(`https://api.themoviedb.org/3/movie/top_rated?${CONSTANTS.CONFIG.APIKEY}&language=en-US&page=1`, refreshCount);
+  const [isNowPlayingLoading, fetchedData] = hooks.useHttp(`${CONSTANTS.CONFIG.API_URL}/${CONSTANTS.CONFIG.MOVIE_CALL}/now_playing?${CONSTANTS.CONFIG.APIKEY}&language=en-US`, refreshCount);
+  const [isPopularLoading, fetchPopularData] = hooks.useHttp(`${CONSTANTS.CONFIG.API_URL}/${CONSTANTS.CONFIG.MOVIE_CALL}/popular?${CONSTANTS.CONFIG.APIKEY}&language=en-US`, refreshCount);
+  const [isTopRatedLoading, fetchTopRatedData] = hooks.useHttp(`${CONSTANTS.CONFIG.API_URL}/${CONSTANTS.CONFIG.MOVIE_CALL}/top_rated?${CONSTANTS.CONFIG.APIKEY}&language=en-US&page=1`, refreshCount);
   
   const nowPlayingData = fetchedData ? fetchedData.results ? fetchedData.results : CONSTANTS.cdata : CONSTANTS.cdata ;
   const nowPopularData = fetchPopularData ? fetchPopularData.results ? fetchPopularData.results : CONSTANTS.carddata : CONSTANTS.carddata ;
   const nowTopRatedData = fetchTopRatedData ? fetchTopRatedData.results ? fetchTopRatedData.results : CONSTANTS.carddata : CONSTANTS.carddata ;
 
-  const finalRefresh = isNowPlayingLoading && isPopularLoading && isTopRatedLoading;
+  const finalRefresh = isNowPlayingLoading + isPopularLoading + isTopRatedLoading == 0 ? false : true;
 
   useEffect(() => {
     updateRefreshCount((refreshCount) => refreshCount + 1);

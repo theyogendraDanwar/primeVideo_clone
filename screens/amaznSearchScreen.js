@@ -18,7 +18,7 @@ export default amaznSearchScreen = (props) => {
   const [state, dispatch] = useStateContext()
   const [searchValue, updateSearchValue] = useState('')
   const [refreshCount, updateRefreshCount] = useState(0)
-  const [isLoading,fetchedData] = hooks.useHttp(`https://api.themoviedb.org/3/search/movie?${CONSTANTS.CONFIG.APIKEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`, refreshCount)
+  const [isLoading,fetchedData] = hooks.useHttp(`${CONSTANTS.CONFIG.API_URL}/search/${CONSTANTS.CONFIG.MOVIE_CALL}?${CONSTANTS.CONFIG.APIKEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`, refreshCount)
 
   let textInputRef = useRef();
   useEffect(() => {

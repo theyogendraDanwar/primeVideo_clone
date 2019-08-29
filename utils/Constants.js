@@ -58,5 +58,7 @@ export const tabs = [
 // });
 
 export const CONFIG = {
+  API_URL: 'https://api.themoviedb.org/3',
+  MOVIE_CALL: 'movie',
   APIKEY: ''
 }
