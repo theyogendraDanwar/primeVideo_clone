@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 
 ## Initial Build
-https://drive.google.com/open?id=101Tdv7CFuYC3FgwfE_vbgv2ugbIYyEgr
+Demo APK - https://drive.google.com/open?id=101Tdv7CFuYC3FgwfE_vbgv2ugbIYyEgr
 
 My Aim was to build the things from the scratch so used the module as minimal as possible.
 
