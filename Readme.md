@@ -41,5 +41,3 @@ Libraries and Module which i think can be benefical -:
 <a style="text-decoration:none" target="_blank" href="https://galio.io/">Galibo Framework</a></p><p>
 <a style="text-decoration:none" target="_blank" href="https://galio.io/">react-native-snap-carousel</a></p>
 <a style="text-decoration:none" target="_blank" href="https://nativebase.io/">Native Base</a></p>
-<a style="text-decoration:none" target="_blank" href="https://react-native-training.github.io/react-native-elements/
-">React Native Elements</a></p>
